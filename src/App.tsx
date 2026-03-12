@@ -20,6 +20,8 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import GuestRoute from "./routes/GuestRoute";
+import UsersList from "./pages/Users/UsersList";
+import RolesPermissions from "./pages/Roles/RolesPermissions";
 
 export default function App() {
   return (
@@ -46,6 +48,10 @@ export default function App() {
 
               {/* Forms */}
               <Route path="form-elements" element={<FormElements />} />
+
+              {/* Access Management */}
+              <Route path="users" element={<UsersList />} />
+              <Route path="roles-permissions" element={<RolesPermissions />} />
 
               {/* Tables */}
               <Route path="basic-tables" element={<BasicTables />} />

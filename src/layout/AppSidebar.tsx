@@ -59,6 +59,14 @@ const navItems: NavItem[] = [
       { name: "404 Error", path: "/error-404", pro: false },
     ],
   },
+  {
+    name: "Access Control",
+    icon: <UserCircleIcon />,
+    subItems: [
+      { name: "Users", path: "/users", pro: false },
+      { name: "Roles & Permissions", path: "/roles-permissions", pro: false },
+    ],
+  },
 ];
 
 const othersItems: NavItem[] = [

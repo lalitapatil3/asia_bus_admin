@@ -1,0 +1,17 @@
+﻿src/pages/Roles/PermissionsMatrix.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Roles/RolesList.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Roles/RolesPermissions.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Users/UsersList.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/services/permissionService.ts(1,1): error TS6133: 'axios' is declared but its value is never read.
+src/services/permissionService.ts(1,19): error TS2307: Cannot find module 'axios' or its corresponding type declarations.
+src/services/permissionService.ts(3,7): error TS6133: 'API_BASE_URL' is declared but its value is never read.
+src/services/roleService.ts(1,1): error TS6133: 'axios' is declared but its value is never read.
+src/services/roleService.ts(1,19): error TS2307: Cannot find module 'axios' or its corresponding type declarations.
+src/services/roleService.ts(3,7): error TS6133: 'API_BASE_URL' is declared but its value is never read.
+src/services/roleService.ts(20,22): error TS6133: 'id' is declared but its value is never read.
+src/services/roleService.ts(27,35): error TS6133: 'roleId' is declared but its value is never read.
+src/services/roleService.ts(27,60): error TS6133: 'permissionIds' is declared but its value is never read.
+src/services/userService.ts(1,1): error TS6133: 'axios' is declared but its value is never read.
+src/services/userService.ts(1,19): error TS2307: Cannot find module 'axios' or its corresponding type declarations.
+src/services/userService.ts(3,7): error TS6133: 'API_BASE_URL' is declared but its value is never read.
+src/services/userService.ts(20,22): error TS6133: 'id' is declared but its value is never read.
