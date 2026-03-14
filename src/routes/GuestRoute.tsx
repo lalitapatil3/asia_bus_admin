@@ -1,11 +1,10 @@
-import { Navigate, Outlet } from 'react-router';
-import { isAuthenticated } from '../utils/auth';
+import { Navigate, Outlet } from "react-router";
+import { useAuthStore } from "../store/authStore";
 
 export default function GuestRoute() {
-  if (isAuthenticated()) {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
   }
-
   return <Outlet />;
 }
-

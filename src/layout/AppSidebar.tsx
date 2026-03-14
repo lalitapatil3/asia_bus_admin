@@ -64,7 +64,17 @@ const navItems: NavItem[] = [
     icon: <UserCircleIcon />,
     subItems: [
       { name: "Users", path: "/users", pro: false },
-      { name: "Roles & Permissions", path: "/roles-permissions", pro: false },
+      { name: "Roles", path: "/roles", pro: false },
+      { name: "Permissions", path: "/permissions", pro: false },
+      { name: "Assignments", path: "/assignments", pro: false },
+      { name: "Roles & Permissions (legacy)", path: "/roles-permissions", pro: false },
+    ],
+  },
+  {
+    name: "Vendors",
+    icon: <UserCircleIcon />,
+    subItems: [
+      { name: "All Vendors", path: "/vendors", pro: false },
     ],
   },
 ];

@@ -20,8 +20,18 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import GuestRoute from "./routes/GuestRoute";
-import UsersList from "./pages/Users/UsersList";
+import UsersListPage from "./pages/Users/UsersListPage";
+import UserDetailPage from "./pages/Users/UserDetailPage";
+import UserFormPage from "./pages/Users/UserFormPage";
+import RolesListPage from "./pages/Roles/RolesListPage";
+import RoleFormPage from "./pages/Roles/RoleFormPage";
+import PermissionsPage from "./pages/Permissions/PermissionsPage";
+import AssignmentsPage from "./pages/Assignments/AssignmentsPage";
+import UnauthorizedPage from "./pages/OtherPage/UnauthorizedPage";
 import RolesPermissions from "./pages/Roles/RolesPermissions";
+import VendorsListPage from "./pages/Vendors/VendorsListPage";
+import VendorDetailPage from "./pages/Vendors/VendorDetailPage";
+import VendorFormPage from "./pages/Vendors/VendorFormPage";
 
 export default function App() {
   return (
@@ -49,9 +59,22 @@ export default function App() {
               {/* Forms */}
               <Route path="form-elements" element={<FormElements />} />
 
-              {/* Access Management */}
-              <Route path="users" element={<UsersList />} />
+              {/* Access Management (RBAC) */}
+              <Route path="users" element={<UsersListPage />} />
+              <Route path="users/new" element={<UserFormPage />} />
+              <Route path="users/:id" element={<UserDetailPage />} />
+              <Route path="users/:id/edit" element={<UserFormPage />} />
+              <Route path="roles" element={<RolesListPage />} />
+              <Route path="roles/new" element={<RoleFormPage />} />
+              <Route path="roles/:id/edit" element={<RoleFormPage />} />
+              <Route path="permissions" element={<PermissionsPage />} />
+              <Route path="assignments" element={<AssignmentsPage />} />
               <Route path="roles-permissions" element={<RolesPermissions />} />
+
+              {/* Vendors */}
+              <Route path="vendors" element={<VendorsListPage />} />
+              <Route path="vendors/new" element={<VendorFormPage />} />
+              <Route path="vendors/:id" element={<VendorDetailPage />} />
 
               {/* Tables */}
               <Route path="basic-tables" element={<BasicTables />} />
@@ -70,6 +93,7 @@ export default function App() {
             </Route>
           </Route>
 
+          <Route path="unauthorized" element={<UnauthorizedPage />} />
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
