@@ -17,6 +17,7 @@ export interface VendorListItem {
   allowWhatsapp: boolean;
   status: VendorStatus;
   email?: string;
+  hasActiveApiKey?: boolean;
   aadharDocumentPath?: string | null;
   panDocumentPath?: string | null;
   createdAt?: string;
@@ -103,5 +104,15 @@ export const vendorsApi = {
   reject: (id: number) =>
     api
       .patch<{ success: boolean; data: VendorListItem }>(`/vendors/${id}/reject`)
+      .then((r) => r.data.data),
+
+  getMyApiKeys: () =>
+    api
+      .get<{ success: boolean; data: { id: number; name: string | null; maskedKey: string; status: string; createdAt?: string; lastUsedAt?: string | null; rateLimitTier?: string | null }[] }>("/vendors/me/api-keys")
+      .then((r) => r.data.data),
+
+  createMyApiKey: () =>
+    api
+      .post<{ success: boolean; message: string; data: { id: number; apiKey: string; name: string | null; createdAt?: string } }>("/vendors/me/api-keys")
       .then((r) => r.data.data),
 };

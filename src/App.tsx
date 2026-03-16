@@ -32,6 +32,7 @@ import RolesPermissions from "./pages/Roles/RolesPermissions";
 import VendorsListPage from "./pages/Vendors/VendorsListPage";
 import VendorDetailPage from "./pages/Vendors/VendorDetailPage";
 import VendorFormPage from "./pages/Vendors/VendorFormPage";
+import MyVendorApiKeyPage from "./pages/Vendors/MyVendorApiKeyPage";
 
 export default function App() {
   return (
@@ -75,6 +76,7 @@ export default function App() {
               <Route path="vendors" element={<VendorsListPage />} />
               <Route path="vendors/new" element={<VendorFormPage />} />
               <Route path="vendors/:id" element={<VendorDetailPage />} />
+              <Route path="vendors/api-key" element={<MyVendorApiKeyPage />} />
 
               {/* Tables */}
               <Route path="basic-tables" element={<BasicTables />} />

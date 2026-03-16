@@ -75,6 +75,7 @@ const navItems: NavItem[] = [
     icon: <UserCircleIcon />,
     subItems: [
       { name: "All Vendors", path: "/vendors", pro: false },
+      { name: "My API key", path: "/vendors/api-key", pro: false },
     ],
   },
 ];

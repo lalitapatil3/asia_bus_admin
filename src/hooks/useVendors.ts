@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { showSuccess, showError } from "../utils/toast";
 import {
   vendorsApi,
   type VendorStatus,
@@ -33,9 +33,9 @@ export function useCreateVendor() {
     mutationFn: vendorsApi.create,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: vendorsKey });
-      toast.success("Vendor registered");
+      showSuccess("Vendor registered");
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: (err: Error) => showError(err, "Failed to register vendor"),
   });
 }
 
@@ -52,9 +52,9 @@ export function useUpdateVendor() {
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: vendorsKey });
       qc.invalidateQueries({ queryKey: [...vendorsKey, id] });
-      toast.success("Vendor updated");
+      showSuccess("Vendor updated");
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: (err: Error) => showError(err, "Failed to update vendor"),
   });
 }
 
@@ -64,9 +64,9 @@ export function useDeleteVendor() {
     mutationFn: vendorsApi.delete,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: vendorsKey });
-      toast.success("Vendor deactivated");
+      showSuccess("Vendor deactivated");
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: (err: Error) => showError(err, "Failed to deactivate vendor"),
   });
 }
 
@@ -77,9 +77,9 @@ export function useApproveVendor() {
     onSuccess: (_, id) => {
       qc.invalidateQueries({ queryKey: vendorsKey });
       qc.invalidateQueries({ queryKey: [...vendorsKey, id] });
-      toast.success("Vendor approved");
+      showSuccess("Vendor approved");
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: (err: Error) => showError(err, "Failed to approve vendor"),
   });
 }
 
@@ -90,8 +90,32 @@ export function useRejectVendor() {
     onSuccess: (_, id) => {
       qc.invalidateQueries({ queryKey: vendorsKey });
       qc.invalidateQueries({ queryKey: [...vendorsKey, id] });
-      toast.success("Vendor rejected");
+      showSuccess("Vendor rejected");
     },
-    onError: (err: Error) => toast.error(err.message),
+    onError: (err: Error) => showError(err, "Failed to reject vendor"),
+  });
+}
+
+export function useMyVendorApiKeys() {
+  return useQuery({
+    queryKey: ["my-vendor-api-keys"],
+    queryFn: vendorsApi.getMyApiKeys,
+  });
+}
+
+export function useCreateMyVendorApiKey(options?: {
+  onSuccess?: (data: Awaited<ReturnType<typeof vendorsApi.createMyApiKey>>) => void;
+}) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: vendorsApi.createMyApiKey,
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["my-vendor-api-keys"] });
+      showSuccess("API key generated");
+      if (options?.onSuccess) {
+        options.onSuccess(data);
+      }
+    },
+    onError: (err: Error) => showError(err, "Failed to generate API key"),
   });
 }

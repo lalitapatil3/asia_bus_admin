@@ -23,7 +23,14 @@ createRoot(document.getElementById("root")!).render(
           <App />
         </AppWrapper>
       </ThemeProvider>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            zIndex: 999999,
+          },
+        }}
+      />
     </QueryClientProvider>
   </StrictMode>,
 );
