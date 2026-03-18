@@ -33,6 +33,10 @@ import VendorsListPage from "./pages/Vendors/VendorsListPage";
 import VendorDetailPage from "./pages/Vendors/VendorDetailPage";
 import VendorFormPage from "./pages/Vendors/VendorFormPage";
 import MyVendorApiKeyPage from "./pages/Vendors/MyVendorApiKeyPage";
+import StatesListPage from "./pages/States/StatesListPage";
+import StateFormPage from "./pages/States/StateFormPage";
+import CitiesListPage from "./pages/Cities/CitiesListPage";
+import CityFormPage from "./pages/Cities/CityFormPage";
 
 export default function App() {
   return (
@@ -77,6 +81,14 @@ export default function App() {
               <Route path="vendors/new" element={<VendorFormPage />} />
               <Route path="vendors/:id" element={<VendorDetailPage />} />
               <Route path="vendors/api-key" element={<MyVendorApiKeyPage />} />
+
+              {/* Master Data */}
+              <Route path="states" element={<StatesListPage />} />
+              <Route path="states/new" element={<StateFormPage />} />
+              <Route path="states/:id/edit" element={<StateFormPage />} />
+              <Route path="cities" element={<CitiesListPage />} />
+              <Route path="cities/new" element={<CityFormPage />} />
+              <Route path="cities/:id/edit" element={<CityFormPage />} />
 
               {/* Tables */}
               <Route path="basic-tables" element={<BasicTables />} />

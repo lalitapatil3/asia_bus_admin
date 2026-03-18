@@ -71,6 +71,14 @@ const navItems: NavItem[] = [
     ],
   },
   {
+    name: "Master Data",
+    icon: <GridIcon />,
+    subItems: [
+      { name: "States", path: "/states", pro: false },
+      { name: "Cities", path: "/cities", pro: false },
+    ],
+  },
+  {
     name: "Vendors",
     icon: <UserCircleIcon />,
     subItems: [
