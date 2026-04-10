@@ -182,14 +182,12 @@ export default function UsersListPage() {
               </Link>
             </PermissionGate>
           </div>
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <DataTable
-              columns={columns}
-              data={users}
-              isLoading={isLoading}
-              emptyMessage="No users found"
-            />
-          </div>
+          <DataTable
+            columns={columns}
+            data={users}
+            isLoading={isLoading}
+            emptyMessage="No users found"
+          />
           {meta && meta.totalPages > 1 && (
             <div className="mt-4 flex justify-center gap-2">
               <Button

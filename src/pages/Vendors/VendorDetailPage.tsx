@@ -53,7 +53,7 @@ export default function VendorDetailPage() {
                     <div className="flex gap-2">
                       <Button
                         size="sm"
-                        color="success"
+                        variant="success"
                         onClick={handleApprove}
                         disabled={approveVendor.isPending}
                       >
@@ -61,7 +61,7 @@ export default function VendorDetailPage() {
                       </Button>
                       <Button
                         size="sm"
-                        color="error"
+                        variant="error"
                         onClick={handleReject}
                         disabled={rejectVendor.isPending}
                       >
@@ -114,9 +114,9 @@ export default function VendorDetailPage() {
                 </div>
               </dl>
               <div className="pt-2">
-                <Button size="sm" asChild>
-                  <Link to="/vendors">Back to list</Link>
-                </Button>
+                <Link to="/vendors">
+                  <Button size="sm">Back to list</Button>
+                </Link>
               </div>
             </div>
           ) : null}

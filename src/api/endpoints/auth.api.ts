@@ -12,6 +12,8 @@ export interface AuthUser {
   lastName?: string;
   roles: { id: number; name: string }[];
   permissions: { resource: string; action: string; permissionName: string; source: string; conditions?: unknown }[];
+  profilePhoto?: string;
+  vendor?: any;
 }
 
 export interface LoginResponse {
@@ -29,4 +31,11 @@ export const authApi = {
     api
       .get<{ success: boolean; data: AuthUser }>("/auth/me")
       .then((r) => r.data.data),
+
+  uploadProfilePhoto: (formData: FormData) =>
+    api.post<{ success: boolean; data: { profilePhoto: string } }>("/auth/profile-photo", formData).then((r) => r.data.data),
+
+  updateProfile: (data: { firstName?: string; lastName?: string }) =>
+    api.put<{ success: boolean; data: AuthUser }>("/auth/me", data).then((r) => r.data.data),
 };
+

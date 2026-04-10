@@ -44,9 +44,9 @@ export default function UserDetailPage() {
               </p>
               <div className="pt-2">
                 <PermissionGate resource="users" action="update">
-                  <Button size="sm" asChild>
-                    <Link to={`/users/${user.id}/edit`}>Edit user</Link>
-                  </Button>
+                  <Link to={`/users/${user.id}/edit`}>
+                    <Button size="sm">Edit user</Button>
+                  </Link>
                 </PermissionGate>
               </div>
             </div>
@@ -64,7 +64,7 @@ export default function UserDetailPage() {
               <li key={a.roleId} className="flex items-center justify-between rounded border border-gray-200 px-3 py-2 dark:border-white/10">
                 <span><Badge color="info">{a.role.name}</Badge> {a.expiresAt ? `(expires ${new Date(a.expiresAt).toLocaleDateString()})` : ""}</span>
                 <PermissionGate resource="users" action="manage">
-                  <Button size="sm" color="error" onClick={() => revokeRole.mutate({ userId, roleId: a.roleId })}>Revoke</Button>
+                  <Button size="sm" variant="error" onClick={() => revokeRole.mutate({ userId, roleId: a.roleId })}>Revoke</Button>
                 </PermissionGate>
               </li>
             ))}

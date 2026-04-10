@@ -4,7 +4,7 @@ import * as citiesApi from "../api/endpoints/cities.api";
 
 export const citiesKey = ["cities"] as const;
 
-export function useGetCities(params?: { search?: string; stateId?: number | string }) {
+export function useGetCities(params?: { search?: string; stateId?: number | string; page?: number; limit?: number }) {
   return useQuery({
     queryKey: [...citiesKey, params],
     queryFn: () => citiesApi.getCities(params),

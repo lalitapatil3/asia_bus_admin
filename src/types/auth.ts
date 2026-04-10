@@ -1,3 +1,10 @@
+export interface Permission {
+  id: string;
+  resource: string;
+  action: string;
+  description?: string;
+}
+
 export interface AuthUser {
   id: string;
   firstName: string;
@@ -6,6 +13,8 @@ export interface AuthUser {
   phoneNumber?: string | null;
   role: string;
   userType?: string | null;
+  permissions?: Permission[];
+  roles?: string[];
 }
 
 export interface LoginRequest {

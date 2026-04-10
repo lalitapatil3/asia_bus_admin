@@ -66,8 +66,9 @@ export function DataTable<T extends RowData>({
   const bodyRows = table.getRowModel().rows;
 
   return (
-    <div className="max-w-full overflow-x-auto">
-      <Table>
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.03] dark:bg-white/[0.03]">
+      <div className="max-w-full overflow-x-auto">
+        <Table>
         <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
           {headerRows.map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -144,7 +145,8 @@ export function DataTable<T extends RowData>({
             ))
           )}
         </TableBody>
-      </Table>
+        </Table>
+      </div>
     </div>
   );
 }

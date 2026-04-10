@@ -48,7 +48,7 @@ export default function AssignmentsPage() {
             </div>
             <div className="mb-2 flex gap-2">
               {(["roles", "direct", "effective"] as const).map((tab) => (
-                <Button key={tab} size="sm" color={activeTab === tab ? "primary" : "default"} onClick={() => setActiveTab(tab)}>
+                <Button key={tab} size="sm" variant={activeTab === tab ? "primary" : "outline"} onClick={() => setActiveTab(tab)}>
                   {tab === "roles" ? "Assigned roles" : tab === "direct" ? "Direct overrides" : "Effective permissions"}
                 </Button>
               ))}

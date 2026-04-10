@@ -85,14 +85,12 @@ export default function StatesListPage() {
             </Link>
           </PermissionGate>
         </div>
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.03]">
-          <DataTable
-            columns={columns}
-            data={states}
-            isLoading={isLoading}
-            emptyMessage="No states found"
-          />
-        </div>
+        <DataTable
+          columns={columns}
+          data={states}
+          isLoading={isLoading}
+          emptyMessage="No states found"
+        />
       </ComponentCard>
     </>
   );

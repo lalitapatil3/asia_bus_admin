@@ -21,8 +21,8 @@ export default function PermissionsPage() {
       <PageBreadcrumb pageTitle="Permissions" />
       <div className="mb-4 flex items-center justify-between">
         <div className="flex gap-2">
-          <Button size="sm" color={view === "grouped" ? "primary" : "default"} onClick={() => setView("grouped")}>Grouped</Button>
-          <Button size="sm" color={view === "flat" ? "primary" : "default"} onClick={() => setView("flat")}>Flat</Button>
+          <Button size="sm" variant={view === "grouped" ? "primary" : "outline"} onClick={() => setView("grouped")}>Grouped</Button>
+          <Button size="sm" variant={view === "flat" ? "primary" : "outline"} onClick={() => setView("flat")}>Flat</Button>
         </div>
       </div>
       <ComponentCard title="Permissions">
@@ -47,7 +47,7 @@ export default function PermissionsPage() {
               <li key={p.id} className="flex items-center justify-between rounded border border-gray-100 px-3 py-2 dark:border-white/5">
                 <span>{p.name}</span>
                 <PermissionGate resource="permissions" action="delete">
-                  <Button size="sm" color="error" onClick={() => window.confirm("Delete?") && deletePermission.mutate(p.id)}>Delete</Button>
+                  <Button size="sm" variant="error" onClick={() => window.confirm("Delete?") && deletePermission.mutate(p.id)}>Delete</Button>
                 </PermissionGate>
               </li>
             ))}

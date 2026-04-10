@@ -1,22 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
 import {
-  BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
-  ListIcon,
-  PageIcon,
-  PieChartIcon,
   PlugInIcon,
-  TableIcon,
   UserCircleIcon,
+  DollarLineIcon,
+  ListIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import SidebarWidget from "./SidebarWidget";
+import { useAuthStore } from "../store/authStore";
 
 type NavItem = {
   name: string;
@@ -32,32 +28,9 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
     icon: <UserCircleIcon />,
     name: "User Profile",
     path: "/profile",
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
   },
   {
     name: "Access Control",
@@ -86,29 +59,24 @@ const navItems: NavItem[] = [
       { name: "My API key", path: "/vendors/api-key", pro: false },
     ],
   },
+  {
+    icon: <DollarLineIcon />,
+    name: "Make Deposit",
+    path: "/vendors/wallet",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Manage Bookings",
+    path: "/bookings",
+  },
+  {
+    icon: <DollarLineIcon />,
+    name: "Transaction History",
+    path: "/transactions",
+  },
 ];
 
 const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
-    subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
-      { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
-    ],
-  },
   {
     icon: <PlugInIcon />,
     name: "Authentication",
@@ -122,6 +90,31 @@ const othersItems: NavItem[] = [
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
+  const user = useAuthStore((state) => state.user);
+
+  // Filter nav items based on roles
+  const filteredNavItems = useMemo(() => {
+    return navItems.filter((item) => {
+      if (item.name === "Master Data") {
+        const hasAccess = user?.roles?.some(
+          (role) => role.name === "admin" || role.name === "super_admin"
+        );
+        return !!hasAccess;
+      }
+      if (item.name === "Make Deposit") {
+        return user?.roles?.some((role) => role.name === "vendor");
+      }
+      if (item.name === "Manage Bookings") {
+        return user?.roles?.some((role) => role.name === "vendor");
+      }
+      if (item.name === "Transaction History") {
+        return user?.roles?.some(
+          (role) => role.name === "admin" || role.name === "super_admin"
+        );
+      }
+      return true;
+    });
+  }, [user]);
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
@@ -141,8 +134,8 @@ const AppSidebar: React.FC = () => {
   useEffect(() => {
     let submenuMatched = false;
     ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
-      items.forEach((nav, index) => {
+      const items = menuType === "main" ? filteredNavItems : othersItems;
+      items.forEach((nav: NavItem, index: number) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
             if (isActive(subItem.path)) {
@@ -332,7 +325,7 @@ const AppSidebar: React.FC = () => {
             </>
           ) : (
             <img
-              src="/images/logo/logo-icon.svg"
+              src="/images/logo/asiabuslogo.jpeg"
               alt="Logo"
               width={32}
               height={32}
@@ -356,7 +349,7 @@ const AppSidebar: React.FC = () => {
                   <HorizontaLDots className="size-6" />
                 )}
               </h2>
-              {renderMenuItems(navItems, "main")}
+              {renderMenuItems(filteredNavItems, "main")}
             </div>
             <div className="">
               <h2
@@ -375,7 +368,7 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
+
       </div>
     </aside>
   );

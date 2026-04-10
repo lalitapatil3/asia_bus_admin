@@ -114,14 +114,12 @@ export default function RolesListPage() {
             </Link>
           </PermissionGate>
         </div>
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.03]">
-          <DataTable
-            columns={columns}
-            data={roles}
-            isLoading={isLoading}
-            emptyMessage="No roles found"
-          />
-        </div>
+        <DataTable
+          columns={columns}
+          data={roles}
+          isLoading={isLoading}
+          emptyMessage="No roles found"
+        />
         {meta && meta.totalPages > 1 && (
           <div className="mt-4 flex justify-center gap-2">
             <Button

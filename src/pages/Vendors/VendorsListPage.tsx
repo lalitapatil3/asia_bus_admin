@@ -221,14 +221,12 @@ export default function VendorsListPage() {
               </Link>
             </PermissionGate>
           </div>
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <DataTable
-              columns={columns}
-              data={vendors}
-              isLoading={isLoading}
-              emptyMessage="No vendors found"
-            />
-          </div>
+          <DataTable
+            columns={columns}
+            data={vendors}
+            isLoading={isLoading}
+            emptyMessage="No vendors found"
+          />
           {meta && meta.totalPages > 1 && (
             <div className="mt-4 flex justify-center gap-2">
               <Button

@@ -13,8 +13,15 @@ export interface CityData {
   updatedAt?: string;
 }
 
-export const getCities = async (params?: { search?: string; stateId?: number | string }) => {
-  const { data } = await api.get<{ success: boolean; data: CityData[] }>("/cities", {
+export interface PaginatedCities {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  cities: CityData[];
+}
+
+export const getCities = async (params?: { search?: string; stateId?: number | string; page?: number; limit?: number }) => {
+  const { data } = await api.get<{ success: boolean; data: PaginatedCities }>("/cities", {
     params,
   });
   return data.data;

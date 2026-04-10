@@ -36,7 +36,6 @@ export function useLogout() {
 }
 
 export function useMe() {
-  const setAuth = useAuthStore((s) => s.setAuth);
   const updateUser = useAuthStore((s) => s.updateUser);
 
   return useMutation({

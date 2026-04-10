@@ -1,28 +1,37 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import ComponentCard from "../../components/common/ComponentCard";
-import { DataTable, TableIconButton } from "../../components/ui/data-table";
+import { DataTable } from "../../components/ui/data-table";
 import type { DataTableColumn } from "../../components/ui/data-table";
 import Button from "../../components/ui/button/Button";
 import PermissionGate from "../../components/common/PermissionGate";
-import { useGetCities, useDeleteCity } from "../../hooks/useCities";
-import { PencilIcon, TrashBinIcon } from "../../icons";
+import { useGetCities } from "../../hooks/useCities";
 import { CityData } from "../../api/endpoints/cities.api";
 
 export default function CitiesListPage() {
-  const { data: cities = [], isLoading } = useGetCities();
-  const deleteCity = useDeleteCity();
+  const [page, setPage] = useState(1);
+  const limit = 100;
 
-  const handleDelete = (id: number, name: string) => {
-    if (window.confirm(`Delete city "${name}"?`)) {
-      deleteCity.mutate(id);
-    }
-  };
+  const { data, isLoading } = useGetCities({ page, limit });
+  const cities = data?.cities ?? [];
+  const totalPages = data?.totalPages ?? 1;
 
-  const columns: DataTableColumn<CityData>[] = useMemo(
+  const citiesWithSlNo = useMemo(() => {
+    return cities.map((city, idx) => ({
+      ...city,
+      slNo: (page - 1) * limit + idx + 1,
+    }));
+  }, [cities, page, limit]);
+
+  const columns: DataTableColumn<CityData & { slNo?: number }>[] = useMemo(
     () => [
+      {
+        id: "slNo",
+        header: "Sl. No.",
+        accessorKey: "slNo",
+      },
       {
         id: "id",
         header: "ID",
@@ -54,28 +63,23 @@ export default function CitiesListPage() {
         accessorKey: "seatSellerCityId",
       },
       {
-        id: "actions",
-        header: "Actions",
+        id: "latitude",
+        header: "Latitude",
+        accessorKey: "latitude",
         cell: (row) => (
-          <div className="flex items-center gap-1">
-            <PermissionGate resource="cities" action="update">
-              <Link to={`/cities/${row.id}/edit`}>
-                <TableIconButton title="Edit" aria-label="Edit city">
-                  <PencilIcon className="size-4" />
-                </TableIconButton>
-              </Link>
-            </PermissionGate>
-            <PermissionGate resource="cities" action="delete">
-              <TableIconButton
-                onClick={() => handleDelete(row.id, row.name)}
-                title="Delete"
-                aria-label="Delete city"
-                className="hover:bg-error-50 hover:text-error-600 dark:hover:bg-error-500/15 dark:hover:text-error-400"
-              >
-                <TrashBinIcon className="size-4" />
-              </TableIconButton>
-            </PermissionGate>
-          </div>
+          <span className="text-gray-500 dark:text-gray-400">
+            {row.latitude || "N/A"}
+          </span>
+        ),
+      },
+      {
+        id: "longitude",
+        header: "Longitude",
+        accessorKey: "longitude",
+        cell: (row) => (
+          <span className="text-gray-500 dark:text-gray-400">
+            {row.longitude || "N/A"}
+          </span>
         ),
       },
     ],
@@ -94,13 +98,63 @@ export default function CitiesListPage() {
             </Link>
           </PermissionGate>
         </div>
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.03]">
-          <DataTable
-            columns={columns}
-            data={cities}
-            isLoading={isLoading}
-            emptyMessage="No cities found"
-          />
+        <DataTable
+          columns={columns}
+          data={citiesWithSlNo}
+          isLoading={isLoading}
+          emptyMessage="No cities found"
+        />
+
+        {/* Pagination Controls */}
+        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 sm:px-6 dark:border-gray-800 mt-4">
+          <div className="flex justify-between flex-1 sm:hidden">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages}
+            >
+              Next
+            </Button>
+          </div>
+          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm text-gray-700 dark:text-gray-400">
+                Showing page <span className="font-medium">{page}</span> of{" "}
+                <span className="font-medium">{totalPages}</span>
+              </p>
+            </div>
+            <div>
+              <nav className="inline-flex -space-x-px rounded-[8px] shadow-sm ml-4" aria-label="Pagination">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="rounded-l-[8px] rounded-r-none border-r-0"
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={page >= totalPages}
+                  className="rounded-r-[8px] rounded-l-none"
+                >
+                  Next
+                </Button>
+              </nav>
+            </div>
+          </div>
         </div>
       </ComponentCard>
     </>
